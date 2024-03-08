@@ -1,9 +1,9 @@
-#include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 #define MAX_WORD_SIZE 256
+#define MAX_FOUND_COUNT 256
 
 static void *fmalloc(unsigned long nByte) {
   void *buffer;
@@ -18,8 +18,8 @@ static void *fmalloc(unsigned long nByte) {
 }
 
 typedef struct {
-  int found;
-  unsigned long foundIndex;
+  int nFound;
+  unsigned long *foundIndices;
 } SearchResult;
 
 static SearchResult *constructSearchResult(void) {
@@ -27,8 +27,8 @@ static SearchResult *constructSearchResult(void) {
 
   result = fmalloc(sizeof(SearchResult));
 
-  result->found = 0;
-  result->foundIndex = ULONG_MAX;
+  result->nFound = 0;
+  result->foundIndices = fmalloc(MAX_FOUND_COUNT * sizeof(unsigned long));
 
   return result;
 }
@@ -37,6 +37,7 @@ static SearchResult *searchSubstring(char *string, char *substring) {
   SearchResult *result;
   char firstTarget;
   unsigned long stringLength, substringLength, i, j;
+  int found;
 
   result = constructSearchResult();
 
@@ -45,35 +46,32 @@ static SearchResult *searchSubstring(char *string, char *substring) {
   stringLength = strlen(string);
   substringLength = strlen(substring);
 
-  result->found = 0;
+  result->nFound = 0;
+  found = 0;
 
   if (substringLength <= stringLength) {
-    for (i = 0; i < stringLength - substringLength + 1 && result->found == 0;
-         ++i) {
+    for (i = 0; i < stringLength - substringLength + 1; ++i) {
       if (string[i] == firstTarget) {
         printf("First character of the target is seen in %lu index of the "
                "string\n",
                i);
 
-        result->found = 1;
-        result->foundIndex = i;
+        found = 1;
 
-        for (j = 1;
-             i + j < stringLength && j < substringLength && result->found == 1;
+        for (j = 1; i + j < stringLength && j < substringLength && found == 1;
              ++j) {
           if (string[i + j] != substring[j]) {
-            result->found = 0;
+            found = 0;
           }
         }
 
         if (j < substringLength) {
-          result->found = 0;
+          found = 0;
+        } else if (found == 1) {
+          result->foundIndices[result->nFound] = i;
+          ++result->nFound;
         }
       }
-    }
-
-    if (result->found == 0) {
-      result->foundIndex = ULONG_MAX;
     }
   }
 
@@ -81,11 +79,19 @@ static SearchResult *searchSubstring(char *string, char *substring) {
 }
 
 static void printSearchResult(SearchResult *result) {
-  if (result->found == 1) {
-    printf("Target was found in index %lu\n", result->foundIndex);
+  int i;
+  if (result->nFound > 0) {
+    for (i = 0; i < result->nFound; ++i) {
+      printf("Target %d was found in index %lu\n", i, result->foundIndices[i]);
+    }
   } else {
     printf("Target was not found\n");
   }
+}
+
+static void freeSearchResult(SearchResult *result) {
+  free(result->foundIndices);
+  free(result);
 }
 
 int main(void) {
@@ -106,7 +112,7 @@ int main(void) {
   result = searchSubstring(word1, word2);
   printSearchResult(result);
 
-  free(result);
+  freeSearchResult(result);
   free(word2);
   free(word1);
 
