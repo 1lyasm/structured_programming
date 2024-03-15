@@ -88,7 +88,6 @@ int main(void) {
             } else {
                 printf("(%d)*p^%d", *productCoefPtr, *productPowerPtr);
             }
-            /* printf("%d %d\n", *productPowerPtr, *productCoefPtr); */
         }
         ++productCoefPtr;
         ++productPowerPtr;
