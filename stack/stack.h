@@ -7,4 +7,6 @@ typedef struct {
     void *_buffer;
 } Stack;
 
+Stack *constructStack(void);
+
 #endif

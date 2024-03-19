@@ -3,7 +3,7 @@
 #include "stack.h"
 
 int main(void) {
-    Stack *stack = NULL;
+    Stack *stack = constructStack();
 
     printf("%p\n", (void*) stack);
 
