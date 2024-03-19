@@ -10,5 +10,6 @@ typedef struct {
 } Stack;
 
 Stack *constructStack(void);
+void freeStack(Stack *);
 
 #endif

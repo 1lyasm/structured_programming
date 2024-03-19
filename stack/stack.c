@@ -22,4 +22,8 @@ Stack *constructStack(void) {
   printf("constructStack is called\n");
 
   return NULL;
+
+void freeStack(Stack *stack) {
+    free(stack->_buffer);
+    free(stack);
 }
