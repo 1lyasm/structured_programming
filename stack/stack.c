@@ -8,14 +8,14 @@
  * returns error code
  */
 static void *failMalloc(size_t nBytes) {
-    void *buffer;
+  void *buffer;
 
-    buffer = malloc(nBytes);
-    if (buffer == NULL) {
-        fprintf(stderr, "failMalloc: malloc failed\n");
-    }
+  buffer = malloc(nBytes);
+  if (buffer == NULL) {
+    fprintf(stderr, "failMalloc: malloc failed\n");
+  }
 
-    return buffer;
+  return buffer;
 }
 
 Stack *constructStack(void) {
