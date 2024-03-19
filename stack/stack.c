@@ -19,7 +19,7 @@ static void *failMalloc(size_t nBytes) {
 }
 
 Stack *constructStack(void) {
-    printf("constructStack is called\n");
+  printf("constructStack is called\n");
 
-    return NULL;
+  return NULL;
 }
