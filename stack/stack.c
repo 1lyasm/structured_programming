@@ -24,6 +24,7 @@ Stack *constructStack(void) {
   printf("constructStack is called\n");
 
   stack = failMalloc(sizeof(Stack));
+
   stack->_buffer = failMalloc(INITIAL_BUFFER_SIZE);
 
   return stack;
