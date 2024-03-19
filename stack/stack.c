@@ -19,9 +19,15 @@ static void *failMalloc(size_t nBytes) {
 }
 
 Stack *constructStack(void) {
+  Stack *stack;
+
   printf("constructStack is called\n");
 
-  return NULL;
+  stack = failMalloc(sizeof(Stack));
+  stack->_buffer = failMalloc(INITIAL_BUFFER_SIZE);
+
+  return stack;
+}
 
 void freeStack(Stack *stack) {
     free(stack->_buffer);
