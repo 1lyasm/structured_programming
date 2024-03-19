@@ -26,6 +26,8 @@ Stack *constructStack(void) {
   stack = failMalloc(sizeof(Stack));
 
   stack->_buffer = failMalloc(INITIAL_BUFFER_SIZE);
+  stack->_startIndex = 0;
+  stack->_endIndex = -1;
 
   return stack;
 }
