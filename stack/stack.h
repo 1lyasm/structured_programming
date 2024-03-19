@@ -2,8 +2,8 @@
 #define STACK_H
 
 typedef struct {
-    int _start_index;
-    int _end_index;
+    int _startIndex;
+    int _endIndex;
     void *_buffer;
 } Stack;
 
