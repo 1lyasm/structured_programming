@@ -4,5 +4,6 @@
 
 Stack *constructStack(void) {
     printf("constructStack is called\n");
+
     return NULL;
 }
