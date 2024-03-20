@@ -65,7 +65,7 @@ static void freeMatrix(int **matrix, int n) {
     free(matrix);
 }
 
-static void *create_transpose(int **matrix, int n, int m) {
+static void *createTranspose(int **matrix, int n, int m) {
     int **transpose = NULL;
     int newN = m;
     int newM = n;
@@ -96,7 +96,7 @@ int main(void) {
 
     printMatrix(matrix, n, m);
 
-    transpose_matrix = create_transpose(matrix, n, m);
+    transpose_matrix = createTranspose(matrix, n, m);
 
     printMatrix(transpose_matrix, m, n);
 
