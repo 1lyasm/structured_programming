@@ -21,7 +21,7 @@ static void *failMalloc(size_t nBytes) {
 Stack *constructStack(void) {
   Stack *stack;
 
-  printf("constructStack is called\n");
+  printf("constructStack: starting\n");
 
   stack = failMalloc(sizeof(Stack));
 
@@ -32,7 +32,23 @@ Stack *constructStack(void) {
   return stack;
 }
 
+size_t getStackItemCount(Stack *stack) {
+  size_t nItems;
+
+  nItems = (size_t)(stack->_endIndex - stack->_startIndex + 1);
+
+  return nItems;
+}
+
+void push(Stack *stack, void *item, size_t item_size) {
+  size_t nItems;
+
+  nItems = getStackItemCount(stack);
+
+  printf("push: nItems: %lu\n", nItems);
+}
+
 void freeStack(Stack *stack) {
-    free(stack->_buffer);
-    free(stack);
+  free(stack->_buffer);
+  free(stack);
 }

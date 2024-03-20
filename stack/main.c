@@ -3,12 +3,12 @@
 #include "stack.h"
 
 int main(void) {
-    Stack *stack = constructStack();
+  Stack *stack = constructStack();
+  int number = 5;
 
-    printf("Address of stack: %p\n", (void*) stack);
+  push(stack, &number, sizeof(number));
 
-    freeStack(stack);
+  freeStack(stack);
 
-    return 0;
+  return 0;
 }
-
