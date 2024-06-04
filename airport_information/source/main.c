@@ -22,8 +22,7 @@ static void printList(ListNode *head) {
     current = head;
 
     while (current) {
-        printf("%s %s %s %s %d %d\n",
-               current->flight.flightCode,
+        printf("%s %s %s %s %d %d\n", current->flight.flightCode,
                current->flight.sourceCity,
                current->flight.destinationCity,
                current->flight.arrivingTime,
@@ -157,10 +156,45 @@ int main() {
 
     printList(head);
 
-    freeList(head);
+    outputFiles = calloc(100, sizeof(FILE *));
 
+    currentNode = head;
+    while (currentNode) {
+        printf("\nRunway number: %d\n",
+               currentNode->flight.runwayNumber);
+        if (outputFiles[currentNode->flight.runwayNumber] ==
+            NULL) {
+            char outputFileName[20] = "pist";
+            outputFileName[4] =
+                (char)(currentNode->flight.runwayNumber + '0');
+            outputFileName[5] = '.';
+            outputFileName[6] = 't';
+            outputFileName[7] = 'x';
+            outputFileName[8] = 't';
+            outputFiles[currentNode->flight.runwayNumber] =
+                fopen(outputFileName, "a");
+        }
+        fprintf(outputFiles[currentNode->flight.runwayNumber],
+                "%s %s %s %s %d %d\n",
+                currentNode->flight.flightCode,
+                currentNode->flight.sourceCity,
+                currentNode->flight.destinationCity,
+                currentNode->flight.arrivingTime,
+                currentNode->flight.isInternalFlight,
+                currentNode->flight.runwayNumber);
+
+        currentNode = currentNode->next;
+    }
+
+    freeList(head);
+    fclose(inputFile);
+    for (i = 0; i < 100; ++i) {
+        if (outputFiles[i]) {
+            fclose(outputFiles[i]);
+        }
+    }
     free(inputString);
+    free(outputFiles);
 
     return 0;
 }
-
